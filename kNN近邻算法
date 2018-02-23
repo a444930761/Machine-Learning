@@ -1,0 +1,41 @@
+import numpy as np
+import matplotlib.pyplot as plt
+
+def createDataSet():
+    '''创建数据集函数
+    Parameters：无
+    Returns：group - 数据集
+             labels - 数据对应的标签
+    '''
+    group = np.array([[1,1.1],[1,1],[0,0],[0,0.1]])
+    labels = list('AABB')
+    return group,labels
+
+group,labels = createDataSet()
+plt.scatter(group[:,0],group[:,1])
+plt.xticks([-0.2,0,0.2,0.4,0.6,0.8,1.0])
+for i in range(group.shape[0]):
+    plt.text(group[i,0]+0.02,group[i,1],labels[i])
+    
+    
+def classify(inX,dataSet,labels,k):
+    '''分类函数
+    Parameters：inX - 要确定标签的数据
+                dataSet - 数据集
+                labels - 数据集对应的标签
+                k - 决定标签的前几个数据
+    Returns：数据的标签
+    '''
+    m = dataSet.shape[0]
+    diffMat = (np.tile(inX,(m,1)) - dataSet) ** 2
+    l = (diffMat.sum(axis=1)) ** 0.5
+    lsort = l.argsort()
+    ldict = {}
+    for i in range(k):
+        label = labels[lsort[i]]
+        ldict[label] = ldict.get(label,0) + 1
+    ldict = sorted(ldict.items(),key=lambda x:x[1],reverse=True)
+    return ldict[0][0]
+            
+            
+        
