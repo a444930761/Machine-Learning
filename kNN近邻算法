@@ -1,3 +1,16 @@
+'''
+kNN（k-NearestNeighbor）近邻算法就是通过k个最近邻居（样本）的属性来决定自己的属性，属于监督式算法。
+主要计算思路是：
+1、计算要分类的数据与样本数据的距离（如欧式距离）
+2、将距离排序，选取前k个样本数据
+3、前k个样本中，占比最多的样本就是要的结果
+优点：
+1、简单，易于理解，不需要调参和训练
+2、适合对稀有事件进行分类
+缺点：
+1、样本不平衡时，比如一个类别非常多，另一个类别少，结果可靠性不高
+2、计算量较大
+'''
 import numpy as np
 import matplotlib.pyplot as plt
 
@@ -10,14 +23,7 @@ def createDataSet():
     group = np.array([[1,1.1],[1,1],[0,0],[0,0.1]])
     labels = list('AABB')
     return group,labels
-
-group,labels = createDataSet()
-plt.scatter(group[:,0],group[:,1])
-plt.xticks([-0.2,0,0.2,0.4,0.6,0.8,1.0])
-for i in range(group.shape[0]):
-    plt.text(group[i,0]+0.02,group[i,1],labels[i])
-    
-    
+        
 def classify(inX,dataSet,labels,k):
     '''分类函数
     Parameters：inX - 要确定标签的数据
@@ -37,5 +43,12 @@ def classify(inX,dataSet,labels,k):
     ldict = sorted(ldict.items(),key=lambda x:x[1],reverse=True)
     return ldict[0][0]
             
-            
+group,labels = createDataSet()
+'''
+plt.scatter(group[:,0],group[:,1])
+plt.xticks([-0.2,0,0.2,0.4,0.6,0.8,1.0])
+for i in range(group.shape[0]):
+    plt.text(group[i,0]+0.02,group[i,1],labels[i])
+'''
+classify([0,0],group,labels,3) #执行该代码对[0,0]进行分类，输出结果为B
         
